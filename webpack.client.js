@@ -10,6 +10,7 @@ module.exports = {
     filename: 'bundle.js',
     path: path.resolve(__dirname, './dist/client')
   },
+  devtool: 'cheap-module-eval-source-map',
   module: {
     rules: [
       {
