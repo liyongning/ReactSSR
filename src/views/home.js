@@ -6,7 +6,10 @@ function Home(props) {
   const [count, setCount] = useState(1)
 
   useEffect(() => {
-    props.getHomeList()
+    // 如果数据为空，则在客户端再获取一次数据, 不为空则就使用服务端获取的数据
+    if (!props.list.length) {
+      props.getHomeList()
+    }
   }, [])
 
   return (
@@ -28,6 +31,11 @@ function Home(props) {
       </ul>
     </>
   )
+}
+
+// 仿nuxt，为每个组件加一个loadData方法，用于获取和填充store数据
+Home.loadData = (store) => {
+  return store.dispatch(getHomeList())
 }
 
 export default connect(state => ({ list: state.home.list }), { getHomeList })(

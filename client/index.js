@@ -3,11 +3,13 @@
  */
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from '../src'
-import { BrowserRouter } from 'react-router-dom'
+import Routes from '../src'
+import { BrowserRouter, Route } from 'react-router-dom'
 // store
-import store from '../src/store'
+import {clientStore} from '../src/store'
 import { Provider } from 'react-redux'
+// header
+import Header from '../src/views/header'
 
 /**
  * render和hydrate的作用对比:
@@ -18,8 +20,15 @@ import { Provider } from 'react-redux'
  */
 
 const Page = (
-  <Provider store={store}>
-    <BrowserRouter>{App}</BrowserRouter>
+  <Provider store={clientStore()}>
+    <BrowserRouter>
+    <Header />
+    {
+      Routes.map(route => {
+        return <Route {...route} />
+      })
+    }
+    </BrowserRouter>
   </Provider>
 )
 

@@ -4,12 +4,16 @@
 import React from 'react'
 import express from 'express'
 // 这里导入的App是一个虚拟DOM
-import App from '../src'
+// import App from '../src'
+import Routes from '../src'
 import { renderToString } from 'react-dom/server'
-import { StaticRouter } from 'react-router-dom'
+import { StaticRouter, matchPath, Route } from 'react-router-dom'
 // store
-import store from '../src/store'
+import {serverStore} from '../src/store'
+const store = serverStore()
 import { Provider } from 'react-redux'
+// header
+import Header from '../src/views/header'
 
 const app = express()
 
@@ -17,27 +21,50 @@ const app = express()
 app.use(express.static('./dist/client'))
 
 app.get('*', (req, res) => {
-  // 在服务端将虚拟DOM渲染成HTML
-  const content = renderToString(
-    // 负责首屏路由
-    <Provider store={store}>
-      <StaticRouter location={req.url}>{App}</StaticRouter>
-    </Provider>
-  )
-  // 向浏览器返回一段拼接好的HTML
-  res.send(
-    `
-    <html>
-      <head>
-        <title>React SSR</title>
-      </head>
-      <body>
-        <div id = "root">${content}</div>
-        <script src = "/bundle.js"></script>
-      </body>
-    </html>
-    `
-  )
+  // 根据路由拿到对应的组件，并执行loadData方法获取数据
+  const promises = []
+  Routes.forEach(route => {
+    if (matchPath(req.path, route)) {
+      route.component.loadData && promises.push(route.component.loadData(store))
+    }
+  })
+
+  // 数据全部加载完成,再渲染页面
+  Promise.all(promises).then(_ => {
+    // 在服务端将虚拟DOM渲染成HTML
+    const content = renderToString(
+      // 负责首屏路由
+      <Provider store={store}>
+        <StaticRouter location={req.url}>
+          <Header />
+          {
+            Routes.map(route => {
+              return <Route {...route} />
+            })
+          }
+        </StaticRouter>
+      </Provider>
+    )
+    // 向浏览器返回一段拼接好的HTML
+    res.send(
+      `
+      <html>
+        <head>
+          <title>React SSR</title>
+        </head>
+        <body>
+          <div id = "root">${content}</div>
+          <script>
+            window.__context = ${JSON.stringify(store.getState())}
+          </script>
+          <script src = "/bundle.js"></script>
+        </body>
+      </html>
+      `
+    )
+  }).catch(err => {
+    res.send('error page')
+  })
 })
 
 app.listen(3000, () => {

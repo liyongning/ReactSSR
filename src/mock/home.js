@@ -2,7 +2,7 @@ const expree = require('express')
 
 const app = expree()
 
-app.get('/api/course/list', (req, res) => {
+app.get('/api/course/lists', (req, res) => {
   res.header('Access-Control-Allow-Origin', '*')
   res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE')
   res.header('Content-Type', 'application/json;charset=UTF-8')
@@ -14,6 +14,18 @@ app.get('/api/course/list', (req, res) => {
       { name: 'web小白', id: 3},
       { name: 'java架构师', id: 4},
     ]
+  })
+})
+
+app.get('/api/user/info', (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE')
+  res.header('Content-Type', 'application/json;charset=UTF-8')
+  res.json({
+    code: 0,
+    userInfo: {
+      title: 'user page'
+    }
   })
 })
 
