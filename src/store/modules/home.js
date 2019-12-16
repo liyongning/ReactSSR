@@ -14,7 +14,8 @@ const changeList = list => ({
 
 export const getHomeList = server => {
   return (dispatch, getState, axiosInstance) => {
-    return axios.get('http://localhost:3001/api/course/list').then(res => {
+    // 将请求发送到server端，由server统一代理到接口服务器
+    return axios.get('http://localhost:3000/api/course/list').then(res => {
       const { list } = res.data
       console.log(list)
       dispatch(changeList(list))

@@ -14,11 +14,20 @@ const store = serverStore()
 import { Provider } from 'react-redux'
 // header
 import Header from '../src/views/header'
+// proxy
+import proxy from 'express-http-proxy'
 
 const app = express()
 
 // 这里的路径是相对执行位置来说的
 app.use(express.static('./dist/client'))
+
+// 拦截所有的api请求，并将请求转发到api服务器
+app.use('/api', proxy('http://localhost:3001', {
+  proxyReqPathResolver: (req) => {
+    return '/api' + req.url
+  }
+}))
 
 app.get('*', (req, res) => {
   // 根据路由拿到对应的组件，并执行loadData方法获取数据
@@ -63,6 +72,7 @@ app.get('*', (req, res) => {
       `
     )
   }).catch(err => {
+    console.log('error', err.message)
     res.send('error page')
   })
 })
