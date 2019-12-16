@@ -39,7 +39,9 @@ app.get('*', (req, res) => {
   })
 
   // 数据全部加载完成,再渲染页面
-  Promise.all(promises).then(_ => {
+  Promise.all(promises).catch(err => {
+    console.log('error message', err.message)
+  }).finally(_ => {
     // 在服务端将虚拟DOM渲染成HTML
     const content = renderToString(
       // 负责首屏路由
@@ -71,9 +73,6 @@ app.get('*', (req, res) => {
       </html>
       `
     )
-  }).catch(err => {
-    console.log('error', err.message)
-    res.send('error page')
   })
 })
 
