@@ -6,7 +6,8 @@ import {Route} from 'react-router-dom'
 import Home from './views/home'
 import About from './views/about'
 import User from './views/user'
-
+// 引入css样式
+import './style/index.css'
 // 这里导出的就是一个虚拟DOM
 // export default (
 //   <div>

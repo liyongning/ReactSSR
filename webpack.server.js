@@ -27,6 +27,11 @@ module.exports = {
           // preset-react让babel具有转换jsx的能力, preset-env将es6转换为es5
           presets: ['@babel/preset-react', ['@babel/preset-env']]
         }
+      },
+      {
+        test: /\.css$/,
+        // isomorphic-style-loader 专为同构应用优化的style-loader， 普通的style-loader在服务端无法运行，因为服务端没有document.createElement
+        use: ['isomorphic-style-loader', 'css-loader']
       }
     ]
   }

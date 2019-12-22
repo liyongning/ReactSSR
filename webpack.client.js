@@ -21,6 +21,10 @@ module.exports = {
           // preset-react让babel具有转换jsx的能力, preset-env将es6转换为es5
           presets: ['@babel/preset-react', ['@babel/preset-env']]
         }
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
       }
     ]
   }
