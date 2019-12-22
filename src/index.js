@@ -6,8 +6,11 @@ import {Route} from 'react-router-dom'
 import Home from './views/home'
 import About from './views/about'
 import User from './views/user'
+import NotFound from './views/notFound'
 // 引入css样式
 import './style/index.css'
+import Redirection from './views/redirection'
+import Login from './views/login'
 // 这里导出的就是一个虚拟DOM
 // export default (
 //   <div>
@@ -36,4 +39,19 @@ export default [
     component: User,
     key: 'user'
   },
+  {
+    path: '/redirection',
+    exact: true,
+    component: Redirection,
+    key: 'redirection'
+  },
+  {
+    path: '/login',
+    exact: true,
+    component: Login,
+    key: 'login'
+  },
+  {
+    component: NotFound
+  }
 ]
