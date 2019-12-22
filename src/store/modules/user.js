@@ -1,7 +1,7 @@
 /**
  * 首页
  */
-import axios from 'axios'
+// import axios from 'axios'
 
 // action.type
 const GET_INFO = 'USER/GET_INFO'
@@ -13,8 +13,8 @@ const getInfo = userInfo => ({
 })
 
 export const getUserInfo = server => {
-  return (dispatch, getState, axiosInstance) => {
-    return axios.get('http://localhost:3000/api/user/info').then(res => {
+  return (dispatch, getState, $axios) => {
+    return $axios.get('/api/user/info').then(res => {
       const { userInfo } = res.data
       console.log(userInfo)
       dispatch(getInfo(userInfo))

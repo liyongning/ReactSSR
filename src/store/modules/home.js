@@ -1,7 +1,7 @@
 /**
  * 首页
  */
-import axios from 'axios'
+// import axios from 'axios'
 
 // action.type
 const GET_LIST = 'HOME/GET_LIST'
@@ -13,9 +13,9 @@ const changeList = list => ({
 })
 
 export const getHomeList = server => {
-  return (dispatch, getState, axiosInstance) => {
+  return (dispatch, getState, $axios) => {
     // 将请求发送到server端，由server统一代理到接口服务器
-    return axios.get('http://localhost:3000/api/course/list').then(res => {
+    return $axios.get('/api/course/list').then(res => {
       const { list } = res.data
       console.log(list)
       dispatch(changeList(list))

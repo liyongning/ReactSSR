@@ -4,7 +4,7 @@
   "description": "",
   "main": "webpack.server.js",
   "scripts": {
-    "start": "concurrently \"npm run dev:client\" \"npm run dev:server\" \"npm run dev:start\"",
+    "start": "concurrently \"npm run dev:client\" \"npm run dev:server\" \"npm run dev:start\" \"nodemon ./src/mock/home.js\"",
     "dev:client": "webpack --config webpack.client.js --watch",
     "dev:server": "webpack --config webpack.server.js --watch",
     "dev:start": "nodemon --watch ./dist/server --exec node \"./dist/server/bundle.js\""

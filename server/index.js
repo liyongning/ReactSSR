@@ -38,6 +38,8 @@ app.get('*', (req, res) => {
     }
   })
 
+  // 降级处理，除了finally或者将promise在包装一层强制resolve这两种方法外更好的是使用Promise.allSettled方法
+  // https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled
   // 数据全部加载完成,再渲染页面
   Promise.all(promises).catch(err => {
     console.log('error message', err.message)
