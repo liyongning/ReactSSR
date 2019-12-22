@@ -4,9 +4,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Routes from '../src'
-import { BrowserRouter, Route } from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 // store
-import {clientStore} from '../src/store'
+import { clientStore } from '../src/store'
 import { Provider } from 'react-redux'
 // header
 import Header from '../src/views/header'
@@ -22,12 +22,12 @@ import Header from '../src/views/header'
 const Page = (
   <Provider store={clientStore()}>
     <BrowserRouter>
-    <Header />
-    {
-      Routes.map(route => {
-        return <Route {...route} />
-      })
-    }
+      <Header />
+      <Switch>
+        {Routes.map((route, index) => {
+          return <Route {...route} key={index} />
+        })}
+      </Switch>
     </BrowserRouter>
   </Provider>
 )
