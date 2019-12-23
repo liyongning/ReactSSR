@@ -16,7 +16,6 @@ export const getUserInfo = server => {
   return (dispatch, getState, $axios) => {
     return $axios.get('/api/user/info').then(res => {
       const { userInfo } = res.data
-      console.log(userInfo)
       dispatch(getInfo(userInfo))
     })
   }

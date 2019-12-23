@@ -17,7 +17,6 @@ export const getHomeList = server => {
     // 将请求发送到server端，由server统一代理到接口服务器
     return $axios.get('/api/course/list').then(res => {
       const { list } = res.data
-      console.log(list)
       dispatch(changeList(list))
     })
   }

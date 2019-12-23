@@ -32,4 +32,10 @@ const Page = (
   </Provider>
 )
 
-ReactDOM.hydrate(Page, document.getElementById('root'))
+if (window.__context) {
+  // ssr
+  ReactDOM.hydrate(Page, document.getElementById('root'))
+} else {
+  // csr
+  ReactDOM.render(Page, document.getElementById('root'))
+}

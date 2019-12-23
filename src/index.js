@@ -7,8 +7,6 @@ import Home from './views/home'
 import About from './views/about'
 import User from './views/user'
 import NotFound from './views/notFound'
-// 引入css样式
-import './style/index.css'
 import Redirection from './views/redirection'
 import Login from './views/login'
 // 这里导出的就是一个虚拟DOM

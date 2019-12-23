@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { getUserInfo } from '../store/modules/user'
+import styles from './user.css'
+import WithStyle from './withStyle'
 
 function User(props) {
   useEffect(() => {
@@ -12,7 +14,7 @@ function User(props) {
 
   return (
     <>
-      <h1>Hello {props.userInfo.title}</h1>
+      <h1 className = {styles.background}>Hello {props.userInfo.title}</h1>
     </>
   )
 }
@@ -23,5 +25,5 @@ User.loadData = (store) => {
 }
 
 export default connect(state => ({ userInfo: state.user.userInfo }), { getUserInfo })(
-  User
+  WithStyle(User, styles)
 )

@@ -2,6 +2,7 @@
  * 打包client bundle
  */
 const path = require('path')
+const HTMLWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   mode: 'development',
@@ -24,8 +25,20 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        // use: ['style-loader', 'css-loader']
+        use: ['style-loader', {
+          // css-loader 开启模块化
+          loader: 'css-loader',
+          options: {
+            modules: true
+          }
+        }]
       }
     ]
-  }
+  },
+  plugins: [new HTMLWebpackPlugin({
+    filename: 'index.csr.html',
+    template: './src/views/index.csr.html',
+    inject: true
+  })]
 }

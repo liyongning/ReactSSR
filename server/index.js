@@ -16,6 +16,8 @@ import { Provider } from 'react-redux'
 import Header from '../src/views/header'
 // proxy
 import proxy from 'express-http-proxy'
+import path from 'path'
+import fs from 'fs'
 
 const app = express()
 
@@ -33,6 +35,13 @@ app.use(
 )
 
 app.get('*', (req, res) => {
+  // 开启csr, 访问高峰期临时开启csr，可以手动开启，比如传参，配置，或者根据服务器负载情况自动开启或关闭, 这里采用url参数模拟
+  if (req.query.mode && req.query.mode === 'csr') {
+    console.log('url csr 首屏降级渲染开启')
+    const content = fs.readFileSync(path.resolve(process.cwd(), './dist/client/index.csr.html'), 'utf-8')
+    res.send(content)
+  }
+
   // 根据路由拿到对应的组件，并执行loadData方法获取数据
   const promises = []
   Routes.forEach(route => {
@@ -49,7 +58,9 @@ app.get('*', (req, res) => {
       console.log('error message', err.message)
     })
     .finally(_ => {
-      const context = {}
+      const context = {
+        css: []
+      }
       // 在服务端将虚拟DOM渲染成HTML
       const content = renderToString(
         // 负责首屏路由
@@ -73,12 +84,14 @@ app.get('*', (req, res) => {
         // res.status(301)
         res.redirect(301, context.url)
       }
+      const css = context.css.join('\n')
       // 向浏览器返回一段拼接好的HTML
       res.send(
         `
       <html>
         <head>
           <title>React SSR</title>
+          <style>${css}</style>
         </head>
         <body>
           <div id = "root">${content}</div>
