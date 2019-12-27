@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { getHomeList } from '../store/modules/home'
+import withStyle from './withStyle'
+import styles from './home.css'
 
 function Home(props) {
   const [count, setCount] = useState(1)
@@ -39,5 +41,5 @@ Home.loadData = (store) => {
 }
 
 export default connect(state => ({ list: state.home.list }), { getHomeList })(
-  Home
+  withStyle(Home, styles)
 )

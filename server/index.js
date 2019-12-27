@@ -18,6 +18,7 @@ import Header from '../src/views/header'
 import proxy from 'express-http-proxy'
 import path from 'path'
 import fs from 'fs'
+import config from './config'
 
 const app = express()
 
@@ -35,8 +36,8 @@ app.use(
 )
 
 app.get('*', (req, res) => {
-  // 开启csr, 访问高峰期临时开启csr，可以手动开启，比如传参，配置，或者根据服务器负载情况自动开启或关闭, 这里采用url参数模拟
-  if (req.query.mode && req.query.mode === 'csr') {
+  // 开启csr, 访问高峰期临时开启csr，可以手动开启，比如传参，配置，或者根据服务器负载情况自动开启或关闭
+  if (config.csr) {
     console.log('url csr 首屏降级渲染开启')
     const content = fs.readFileSync(path.resolve(process.cwd(), './dist/client/index.csr.html'), 'utf-8')
     res.send(content)
