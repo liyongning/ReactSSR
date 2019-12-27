@@ -1,3 +1,3 @@
 export default {
-  csr: false
+  csr: true
 }
